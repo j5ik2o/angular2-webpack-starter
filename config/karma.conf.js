@@ -26,8 +26,6 @@ module.exports = function(config) {
      * we are building the test environment in ./spec-bundle.js
      */
     files: [
-      'node_modules/uuid/uuid.js',
-      { pattern: 'node_modules/rxjs/**/*.js', watched: false },
       { pattern: './config/spec-bundle.js', watched: false }
     ],
 

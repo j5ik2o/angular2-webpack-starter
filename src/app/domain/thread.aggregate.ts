@@ -1,6 +1,5 @@
-import {Observer} from "rxjs";
-import {UUID} from "uuid";
-import match = require("core-js/fn/symbol/match");
+import * as Rx from '@reactivex/rxjs'
+import UUID = require('uuid');
 import Thread from './thread';
 
 export interface Event {
@@ -34,7 +33,7 @@ export class CreateThread implements CommandRequest {
 }
 
 export class CreateThreadSucceeded implements CommandResponse {
-  constructor(public id: string, public requestId: string) {
+  constructor(public id: string, public requestId: string, public entityId: string, public name: string) {
 
   }
 }
@@ -49,36 +48,40 @@ export interface UpdateThreadResponse extends CommandResponse {
 }
 
 export class UpdateThreadNameSucceeded implements UpdateThreadResponse {
-  constructor(public id: string, public requestId: string, public name: string) {
+  constructor(public id: string, public requestId: string, public entityId: string, public name: string) {
 
   }
 }
 
 
-export default class ThreadAggregate {
+export class ThreadAggregate {
 
   state: Thread;
 
-  constructor(private observer: Observer, public id: string) {
+  constructor(private observer: Rx.Observer<Event>, public id: string) {
   }
 
   receive(msg: CommandRequest): CommandResponse {
-    return match(msg,
-      (msg: CreateThread) => this.create(msg),
-      (msg: UpdateThreadName) => this.updateName(msg)
-    )
+    if (msg instanceof CreateThread) {
+      return this.create(msg as CreateThread);
+    } else if (msg instanceof UpdateThreadName) {
+      return this.updateName(msg as UpdateThreadName);
+    }
   }
 
-  private create(commdRequest: CreateThread): CreateThreadSucceeded {
-    this.state = new Thread(commdRequest.entityId, commdRequest.name);
-    this.observer.next(new event.ThreadCreated(commdRequest.entityId, name));
-    return new CreateThreadSucceeded(UUID.generate(), commdRequest.id);
+  private create(commandRequest: CreateThread): CreateThreadSucceeded {
+    if (commandRequest.entityId != this.id) {
+      throw new Error;
+    }
+    this.state = new Thread(commandRequest.entityId, commandRequest.name);
+    this.observer.next(new ThreadCreated(commandRequest.entityId, commandRequest.name));
+    return new CreateThreadSucceeded(UUID.v4(), commandRequest.id, this.id, commandRequest.name);
   }
 
-  private updateName(commandRequest: UpdateThreadName): UpdateThreadResponse {
+  private updateName(commandRequest: UpdateThreadName): UpdateThreadNameSucceeded {
     this.state.name = commandRequest.name;
-    this.observer.next(new event.ThreadNameUpdated(this.id, name));
-    return new UpdateThreadNameSucceeded(UUID.generate(), commandRequest.name, commandRequest.name)
+    this.observer.next(new ThreadNameUpdated(this.id, commandRequest.name));
+    return new UpdateThreadNameSucceeded(UUID.v4(), commandRequest.id, this.id, commandRequest.name)
   }
 
 }
