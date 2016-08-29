@@ -23,6 +23,7 @@ import 'rxjs/add/operator/mergeMap';
 
 import 'ng2-bootstrap-rc5-unofficial';
 import 'moment';
+import 'uuid';
 
 if ('production' === ENV) {
   // Production
