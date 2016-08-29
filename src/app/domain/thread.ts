@@ -1,9 +1,6 @@
-namespace domain {
+export default class Thread {
+  constructor(public id: string, public name: string) {
 
-  export class Thread {
-    constructor(public id: string, public name: string) {
-
-    }
   }
-
 }
+

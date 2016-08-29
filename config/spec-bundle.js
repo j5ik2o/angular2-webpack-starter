@@ -22,6 +22,8 @@ require('ts-helpers');
 // RxJS
 require('rxjs/Rx');
 require('rxjs/Subject');
+require('rxjs/Observer');
+require('rxjs/Observable');
 require('uuid');
 
 require('zone.js/dist/zone');

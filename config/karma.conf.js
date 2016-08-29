@@ -28,8 +28,6 @@ module.exports = function(config) {
     files: [
       'node_modules/uuid/uuid.js',
       { pattern: 'node_modules/rxjs/**/*.js', watched: false },
-      'src/app/domain/thread.ts',
-      'src/app/domain/thread.aggregate.ts',
       { pattern: './config/spec-bundle.js', watched: false }
     ],
 
