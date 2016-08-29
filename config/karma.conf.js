@@ -25,7 +25,13 @@ module.exports = function(config) {
      *
      * we are building the test environment in ./spec-bundle.js
      */
-    files: [ { pattern: './config/spec-bundle.js', watched: false } ],
+    files: [
+      'node_modules/uuid/uuid.js',
+      { pattern: 'node_modules/rxjs/**/*.js', watched: false },
+      'src/app/domain/thread.ts',
+      'src/app/domain/thread.aggregate.ts',
+      { pattern: './config/spec-bundle.js', watched: false }
+    ],
 
     /*
      * preprocess matching files before serving them to the browser
