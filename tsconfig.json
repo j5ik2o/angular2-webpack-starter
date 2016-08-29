@@ -17,7 +17,6 @@
       "es6"
     ],
     "types": [
-      "core-js",
       "hammerjs",
       "jasmine",
       "node",
@@ -31,6 +30,15 @@
   "exclude": [
     "node_modules",
     "dist"
+  ],
+  "filesGlob": [
+    "./src/**/*.ts",
+    "./typings/index.d.ts",
+    "./node_modules/rxjs/**/*.d.ts",
+    "./node_modules/@types/core-js/**/*.d.ts"
+  ],
+  "files": [
+
   ],
   "awesomeTypescriptLoaderOptions": {
     "forkChecker": true,
