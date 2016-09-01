@@ -1,0 +1,55 @@
+{
+  "repos": [
+    {
+      "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+      "ref": "master"
+    },
+    {
+      "url": "https://github.com/jiaweihli/monapt.git",
+      "ref": "master"
+    }
+  ],
+  "path": "typings",
+  "bundle": "typings/bundle.d.ts",
+  "link": {
+    "npm": {
+      "include": true
+    },
+    "bower": {
+      "include": true
+    }
+  },
+  "dependencies": {
+    "node/node.d.ts": {
+      "ref": "bac569d9ac44131864632d07b9e4c6f8af2d9432"
+    },
+    "node-uuid/node-uuid.d.ts": {
+      "ref": "bac569d9ac44131864632d07b9e4c6f8af2d9432"
+    },
+    "core-js/core-js.d.ts": {
+      "ref": "bac569d9ac44131864632d07b9e4c6f8af2d9432"
+    },
+    "jasmine/jasmine.d.ts": {
+      "ref": "bac569d9ac44131864632d07b9e4c6f8af2d9432"
+    },
+    "webpack/webpack.d.ts": {
+      "ref": "bac569d9ac44131864632d07b9e4c6f8af2d9432"
+    },
+    "hammerjs/hammerjs.d.ts": {
+      "ref": "bac569d9ac44131864632d07b9e4c6f8af2d9432"
+    },
+    "karma/karma.d.ts": {
+      "ref": "bac569d9ac44131864632d07b9e4c6f8af2d9432"
+    },
+    "selenium-webdriver/selenium-webdriver.d.ts": {
+      "ref": "bac569d9ac44131864632d07b9e4c6f8af2d9432"
+    },
+    "angular-protractor/angular-protractor.d.ts": {
+      "ref": "bac569d9ac44131864632d07b9e4c6f8af2d9432"
+    },
+    "dist/monapt.d.ts": {
+      "repo": "https://github.com/jiaweihli/monapt.git",
+      "ref": "be480d6c2b017ec236101c23f815913c6f4f6487"
+    }
+  }
+}
