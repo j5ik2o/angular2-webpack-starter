@@ -17,14 +17,6 @@
       "es6"
     ],
     "types": [
-      "hammerjs",
-      "jasmine",
-      "node",
-      "protractor",
-      "selenium-webdriver",
-      "source-map",
-      "uglify-js",
-      "webpack"
     ]
   },
   "exclude": [
@@ -33,9 +25,9 @@
   ],
   "filesGlob": [
     "./src/**/*.ts",
-    "./typings/index.d.ts",
-    "./node_modules/rxjs/**/*.d.ts",
-    "./node_modules/@types/core-js/**/*.d.ts"
+    "./src/custom-typings.d.ts",
+    "./typings/bundle.d.ts",
+    "./node_modules/rxjs/**/*.d.ts"
   ],
   "files": [
 
