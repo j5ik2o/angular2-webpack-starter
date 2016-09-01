@@ -1,20 +1,35 @@
-import * as Rx from '@reactivex/rxjs'
+import * as Rx from '@reactivex/rxjs';
 import 'rxjs/add/operator/map';
-import UUID = require('uuid');
+import * as UUID from 'node-uuid';
 
-import {ThreadAggregate, CommandRequest, CreateThread, Event, UpdateThreadName} from './thread.aggregate';
+import {
+  ThreadAggregate,
+  CommandRequest,
+  CreateThread,
+  Event,
+  UpdateThreadName,
+  ThreadCreated,
+  ThreadNameUpdated
+} from './thread.aggregate';
 
-describe('Thread', () => {
-    it('send msg', () => {
+describe('ThreadAggregate', () => {
+    it('send commands', () => {
       let subscriber = Rx.Subscriber.create((msg: Event) => {
+        if (msg instanceof ThreadCreated) {
+          expect((msg as ThreadCreated).name).toBe('test');
+        } else if (msg instanceof  ThreadNameUpdated) {
+          expect((msg as ThreadNameUpdated).name).toBe('test');
+        } else {
+          fail('invalid message');
+        }
         console.log(msg);
       });
 
-      let threadAggregate = new ThreadAggregate(subscriber, UUID.v4());
+      let threadAggregate = new ThreadAggregate(UUID.v4(), subscriber);
 
-      let observable: Rx.Observable<CommandRequest> = Rx.Observable.create((observer: Rx.Observer<CommandRequest>) => {
-        observer.next(new CreateThread(UUID.v4(), threadAggregate.id, "test"));
-        observer.next(new UpdateThreadName(UUID.v4(), threadAggregate.id, "test"));
+      let observable = Rx.Observable.create((observer: Rx.Observer<CommandRequest>) => {
+        observer.next(new CreateThread(UUID.v4(), threadAggregate.id, 'test'));
+        observer.next(new UpdateThreadName(UUID.v4(), threadAggregate.id, 'test'));
         observer.complete();
       });
 
@@ -22,7 +37,7 @@ describe('Thread', () => {
         threadAggregate.receive(msg);
       });
 
-    })
+    });
   }
 );
 
