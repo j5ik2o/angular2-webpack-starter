@@ -4,9 +4,9 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { NgRedux } from 'ng2-redux';
 import { IAppState } from './thread/thread.actions';
-import { ThreadAggregate, CreateThread } from './domain/thread.aggregate';
+import { ThreadAggregate, CreateThread } from './thread/domain/thread.aggregate';
 import * as UUID from 'node-uuid' ;
-import Thread from './domain/thread';
+import Thread from './thread/domain/thread';
 
 /*
  * App Component

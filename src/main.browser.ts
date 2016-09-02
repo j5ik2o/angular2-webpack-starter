@@ -11,7 +11,7 @@ import { bootloader } from '@angularclass/hmr';
  */
 import { AppModule } from './app';
 
-import { ThreadAggregate } from './app/domain/thread.aggregate';
+import { ThreadAggregate } from './app/thread/domain/thread.aggregate';
 import * as UUID from 'node-uuid';
 
 /*

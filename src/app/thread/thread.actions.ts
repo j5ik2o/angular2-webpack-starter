@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { NgRedux } from 'ng2-redux';
 import { threadRepositoryReducer } from './thread.reducer';
 import { combineReducers } from 'redux';
-import ThreadRepository from '../domain/thread.repository';
-import { CreateThread } from '../domain/thread.aggregate';
+import ThreadRepository from './domain/thread.repository';
+import { CreateThread, UpdateThreadName } from './domain/thread.aggregate';
 import { ThreadActionTypes } from './thread.action.type';
 const persistState = require('redux-localstorage');
 import * as UUID from 'node-uuid';
@@ -32,6 +32,15 @@ export default class ThreadActions {
       value: new CreateThread(UUID.v4(), aggregateId, name)
     });
     console.log('createThread - finish');
+  }
+
+  updateThreadName(aggregateId: string, name: string): void {
+    console.log('updateThreadName - start');
+    this.ngRedux.dispatch({
+      type: ThreadActionTypes.UPDATE_THREAD_NAME,
+      value: new UpdateThreadName(UUID.v4(), aggregateId, name)
+    });
+    console.log('updateThreadName - finish');
   }
 
   getThreads(): void {

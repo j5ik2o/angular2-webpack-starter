@@ -38,7 +38,10 @@ export class CreateThread implements CommandRequest {
   }
 }
 
-export class CreateThreadSucceeded implements CommandResponse {
+export interface CreateThreadResponse extends CommandResponse {
+}
+
+export class CreateThreadSucceeded implements CreateThreadResponse {
   constructor(public id: string,
               public requestId: string,
               public entityId: string,
@@ -95,10 +98,10 @@ export class ThreadAggregate {
   }
 
   getThread(): Thread {
-    return JSON.parse(JSON.stringify(this._thread));
+    return this._thread;
   }
 
-  create(commandRequest: CreateThread): CreateThreadSucceeded {
+  create(commandRequest: CreateThread): CreateThreadResponse {
     // if (commandRequest.entityId !== this.id) {
     //   throw new Error;
     // }
@@ -112,9 +115,9 @@ export class ThreadAggregate {
     );
   }
 
-  updateName(commandRequest: UpdateThreadName): UpdateThreadNameSucceeded {
+  updateName(commandRequest: UpdateThreadName): UpdateThreadResponse {
     this._thread.name = commandRequest.name;
-    this.observable.next(new ThreadNameUpdated(this.id, commandRequest.name));
+    this._observable.next(new ThreadNameUpdated(this.id, commandRequest.name));
     return new UpdateThreadNameSucceeded(
       UUID.v4(),
       commandRequest.id,
