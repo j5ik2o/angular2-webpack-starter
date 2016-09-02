@@ -1,6 +1,6 @@
-import * as Rx from '@reactivex/rxjs';
+import * as Rx from 'rxjs';
 import 'rxjs/add/operator/map';
-import * as UUID from 'node-uuid';
+const UUID = require('node-uuid');
 
 import {
   ThreadAggregate,

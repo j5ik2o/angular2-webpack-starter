@@ -2,8 +2,11 @@
  * Angular 2 decorators and services
  */
 import { Component, ViewEncapsulation } from '@angular/core';
-
-import { AppState } from './app.service';
+import { NgRedux } from 'ng2-redux';
+import { IAppState } from './thread/thread.actions';
+import { ThreadAggregate, CreateThread } from './domain/thread.aggregate';
+import * as UUID from 'node-uuid' ;
+import Thread from './domain/thread';
 
 /*
  * App Component
@@ -22,43 +25,12 @@ import { AppState } from './app.service';
           Index
         </a>
       </span>
-      |
-      <span>
-        <a [routerLink]=" ['./home'] ">
-          Home
-        </a>
-      </span>
-      |
-      <span>
-        <a [routerLink]=" ['./detail'] ">
-          Detail
-        </a>
-      </span>
-      |
-      <span>
-        <a [routerLink]=" ['./about'] ">
-          About
-        </a>
-      </span>
-      |
-      <span>
-        <a [routerLink]=" ['./alert'] ">
-          Alert
-        </a>
-      </span>
-      |
-      <span>
-        <a [routerLink]=" ['./date-picker'] ">
-          Date Picker
-        </a>
-      </span>
     </nav>
 
     <main>
-      <router-outlet></router-outlet>
+      <router-outlet>
+      </router-outlet>
     </main>
-
-    <pre class="app-state">this.appState.state = {{ appState.state | json }}</pre>
 
     <footer>
       <span>WebPack Angular 2 Starter by <a [href]="url">@AngularClass</a></span>
@@ -76,20 +48,13 @@ export class App {
   url = 'https://twitter.com/AngularClass';
 
   constructor(
-    public appState: AppState) {
+    public ngRedux: NgRedux<IAppState>) {
 
   }
 
   ngOnInit() {
-    console.log('Initial App State', this.appState.state);
+ //   console.log('Initial App State', this.ngRedux.getState().getRepository());
+
   }
 
 }
-
-/*
- * Please review the https://github.com/AngularClass/angular2-examples/ repo for
- * more angular app examples that you may copy/paste
- * (The examples may not be updated as quickly. Please open an issue on github for us to update it)
- * For help or questions please contact us at @AngularClass on twitter
- * or our chat on Slack at https://AngularClass.com/slack-join
- */

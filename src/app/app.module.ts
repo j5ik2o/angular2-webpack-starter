@@ -4,49 +4,46 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
+import { ENV_PROVIDERS } from './environment';
+import { ROUTES } from './app.routes';
+import { App } from './app.component';
+import { APP_RESOLVER_PROVIDERS } from './app.resolver';
+import { Alert } from './alert';
+import { DatePicker } from './datepicker';
+import { Ng2BootstrapModule } from 'ng2-bootstrap-rc5-unofficial/components';
+import { NgRedux, DevToolsExtension } from 'ng2-redux';
+import { IAppState, rootReducer, enhancers } from './thread/thread.actions';
+import ThreadComponent from './thread/thread.component';
+const createLogger = require('redux-logger');
+const persistState = require('redux-localstorage');
 
 /*
  * Platform and Environment providers/directives/pipes
  */
-import { ENV_PROVIDERS } from './environment';
-import { ROUTES } from './app.routes';
 // App is our top level component
-import { App } from './app.component';
-import { APP_RESOLVER_PROVIDERS } from './app.resolver';
-import { AppState } from './app.service';
-import { Home } from './home';
-import { About } from './about';
-import { NoContent } from './no-content';
-import { Alert } from './alert';
-import {DatePicker} from "./datepicker";
-
-import { Ng2BootstrapModule } from 'ng2-bootstrap-rc5-unofficial/components';
 
 // Application wide providers
 const APP_PROVIDERS = [
-  ...APP_RESOLVER_PROVIDERS,
-  AppState
+  ...APP_RESOLVER_PROVIDERS
 ];
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
  */
 @NgModule({
-  bootstrap: [ App ],
+  bootstrap: [App],
   declarations: [
     App,
-    About,
-    Home,
-    NoContent,
     Alert,
-    DatePicker
+    DatePicker,
+    ThreadComponent
   ],
   imports: [ // import Angular's modules
     Ng2BootstrapModule,
     BrowserModule,
     FormsModule,
     HttpModule,
-    RouterModule.forRoot(ROUTES, { useHash: true })
+    RouterModule.forRoot(ROUTES, {useHash: true})
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,
@@ -54,26 +51,37 @@ const APP_PROVIDERS = [
   ]
 })
 export class AppModule {
-  constructor(public appRef: ApplicationRef, public appState: AppState) {}
+
+  constructor(public appRef: ApplicationRef, private ngRedux: NgRedux<IAppState>) {
+    this.ngRedux.configureStore(
+      rootReducer,
+      {},
+      [createLogger()],);
+//      [...enhancers, devTool.isEnabled() ? devTool.enhancer() : f => f]);
+  }
+
   hmrOnInit(store) {
-    if (!store || !store.state) return;
+    if (!store || !store.state)
+      return;
     console.log('HMR store', store);
-    this.appState._state = store.state;
+    this.ngRedux.getState().threadRepository = store.state;
     this.appRef.tick();
     delete store.state;
   }
+
   hmrOnDestroy(store) {
-    var cmpLocation = this.appRef.components.map(cmp => cmp.location.nativeElement);
+    const cmpLocation = this.appRef.components.map(cmp => cmp.location.nativeElement);
     // recreate elements
-    var state = this.appState._state;
+    const state = this.ngRedux.getState().threadRepository;
     store.state = state;
-    store.disposeOldHosts = createNewHosts(cmpLocation)
+    store.disposeOldHosts = createNewHosts(cmpLocation);
     // remove styles
     removeNgStyles();
   }
+
   hmrAfterDestroy(store) {
     // display new elements
-    store.disposeOldHosts()
+    store.disposeOldHosts();
     delete store.disposeOldHosts;
   }
 }

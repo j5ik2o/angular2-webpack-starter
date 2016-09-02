@@ -22,12 +22,12 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 
 import 'ng2-bootstrap-rc5-unofficial';
+import 'ng2-redux';
 import 'moment';
 import 'uuid';
 
 if ('production' === ENV) {
   // Production
-
 
 } else {
   // Development

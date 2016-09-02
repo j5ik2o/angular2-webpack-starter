@@ -27,7 +27,8 @@
     "./src/**/*.ts",
     "./src/custom-typings.d.ts",
     "./typings/bundle.d.ts",
-    "./node_modules/rxjs/**/*.d.ts"
+    "./node_modules/rxjs/**/*.d.ts",
+    "./node_modules/ng2-redux/lib/index.d.ts"
   ],
   "files": [
 
